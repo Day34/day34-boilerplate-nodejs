@@ -1,5 +1,4 @@
-require('custom-env').env(true);
-
+require('custom-env').env(process.env.APP_ENV);
 const { SERVER_HOST, SERVER_PORT } = require('./config/constants');
 const express = require('express');
 const morgan = require('morgan');
