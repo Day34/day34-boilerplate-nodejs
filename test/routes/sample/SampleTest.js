@@ -1,4 +1,4 @@
-require('custom-env').env('local');
+require('custom-env').env(process.env.APP_ENV);
 import axios from 'axios';
 
 class SampleTest {
