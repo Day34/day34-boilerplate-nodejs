@@ -2,9 +2,9 @@
   "name": "day34-bolierplate-nodejs",
   "version": "0.1.0",
   "scripts": {
-    "local": "NODE_ENV=local nodemon -r esm src/server.js",
-    "dev": "NODE_ENV=dev node -r esm src/server.js",
-    "test": "NODE_ENV=local jest --coverage",
+    "local": "APP_ENV=local nodemon -r esm src/server.js",
+    "dev": "APP_ENV=dev node -r esm src/server.js",
+    "test": "APP_ENV=local jest --coverage",
     "prod": ""
   },
   "dependencies": {
