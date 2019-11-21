@@ -1,9 +1,9 @@
 version: '3'
 services:
   api:
-    hostname: localhost
+    hostname: api
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.local
       context: .
     volumes:
       - /app/node_modules
@@ -11,4 +11,4 @@ services:
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     env_file:
-      - .env.${APP_ENV}
+      - .env
