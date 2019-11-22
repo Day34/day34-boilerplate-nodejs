@@ -1,0 +1,29 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: docker:stable-git # the primary container, where your job's commands are run
+    working_directory: /day34
+
+    steps:
+      - checkout # check out the code in the project directory
+      - setup_remote_docker
+      - run:
+          name: Build docker image for Test
+          command: docker build -t day34/boilerplate-nodejs -f ./Dockerfile.local .
+
+      - run:
+          name: Run Test
+          command: docker run day34/boilerplate-nodejs npm run test
+
+      - run:
+          name: Build docker image for PUSH
+          command: docker build -t day34/boilerplate-nodejs .
+
+      - run:
+          name: Login Docker Hub
+          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+      - run:
+          name: Push Docker Image to Docker Hub
+          command: docker push day34/boilerplate-nodejs

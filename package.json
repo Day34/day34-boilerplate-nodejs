@@ -4,7 +4,7 @@
   "scripts": {
     "local": "APP_ENV=local nodemon -r esm src/server.js",
     "dev": "APP_ENV=dev node -r esm src/server.js",
-    "test": "APP_ENV=local jest --coverage",
+    "test": "NODE_ENV=local jest --coverage --detectOpenHandles --forceExit",
     "prod": ""
   },
   "dependencies": {

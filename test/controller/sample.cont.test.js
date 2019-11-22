@@ -21,3 +21,7 @@ test('SampleController > getItemAll', () => {
     });
 });
 
+test('Test 추가', () => {
+   expect(true).equal(true);
+});
+

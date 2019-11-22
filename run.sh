@@ -1,7 +1,6 @@
 #!/bin/bash
 echo "--------Day 34 Boilerplate Node JS----------"
 
-
 argv1="$1"
 
 # arg 가 없을 때 선택하는 옵션
