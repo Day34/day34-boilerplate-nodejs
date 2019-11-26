@@ -2,16 +2,15 @@
   "name": "day34-bolierplate-nodejs",
   "version": "0.1.0",
   "scripts": {
-    "local": "APP_ENV=local nodemon -r esm src/server.js",
-    "dev": "APP_ENV=dev node -r esm src/server.js",
-    "test": "NODE_ENV=local jest --coverage --detectOpenHandles --forceExit",
-    "prod": ""
+    "local": "nodemon -r esm src/server.js",
+    "dev": "node -r esm src/server.js",
+    "test": "jest --coverage --detectOpenHandles --forceExit",
+    "prod": "node -r esm src/server.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "chalk": "^3.0.0",
     "cors": "^2.8.5",
-    "custom-env": "^1.0.2",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "morgan": "^1.9.1",

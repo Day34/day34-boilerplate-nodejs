@@ -1,4 +1,3 @@
-require('custom-env').env();
 import axios from 'axios';
 
 class SampleTest {
