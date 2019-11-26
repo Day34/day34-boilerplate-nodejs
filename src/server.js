@@ -1,4 +1,3 @@
-require('custom-env').env(true);
 const { SERVER_HOST, SERVER_PORT } = require('./config/constants');
 const express = require('express');
 const morgan = require('morgan');

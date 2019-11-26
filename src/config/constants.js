@@ -1,4 +1,3 @@
-require('custom-env').env(true);
 export const SERVER_HOST = process.env.SERVER_HOST;
 export const SERVER_PORT = process.env.SERVER_PORT;
 export const SUCCESS_MESSAGE = '정상적으로 처리되었습니다.';

@@ -14,7 +14,7 @@ jobs:
 
       - run:
           name: Run Test
-          command: docker run day34/boilerplate-nodejs npm run test
+          command: docker run --env-file=.env.example day34/boilerplate-nodejs npm run test
 
       - run:
           name: Build docker image for PUSH
