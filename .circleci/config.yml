@@ -1,29 +1,92 @@
 version: 2.1
 jobs:
-  build:
+  test:
     docker:
       - image: docker:stable-git # the primary container, where your job's commands are run
-    working_directory: /day34
-
     steps:
       - checkout # check out the code in the project directory
       - setup_remote_docker
       - run:
-          name: Build docker image for Test
-          command: docker build -t day34/boilerplate-nodejs -f ./Dockerfile.local .
-
+          name: Build docker image to Test
+          command: docker build -t "$DOCKER_REPOSITORY" -f ./Dockerfile.local .
       - run:
           name: Run Test
-          command: docker run --env-file=.env.example day34/boilerplate-nodejs npm run test
+          command: docker run --env-file=.env.example "$DOCKER_REPOSITORY" npm run test
 
+  build_and_push_dev:
+    docker:
+      - image: docker:stable-git # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+      - setup_remote_docker
       - run:
-          name: Build docker image for PUSH
-          command: docker build -t day34/boilerplate-nodejs .
+          name: Build docker image and Push to DockerHub with develop tag
+          command: |
+            chmod +x ./.circleci/push.sh
+            sh ./.circleci/push.sh dev
 
+  deploy_dev:
+    docker:
+      - image: mikesir87/aws-cli
+    steps:
+      - checkout # check out the code in the project directory
       - run:
-          name: Login Docker Hub
-          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+          name: Deploy to Dev server
+          command: |
+            chmod +x ./.circleci/deploy.sh
+            sh ./.circleci/deploy.sh dev
 
+  build_and_push_prod:
+    docker:
+      - image: docker:stable-git # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+      - setup_remote_docker
       - run:
-          name: Push Docker Image to Docker Hub
-          command: docker push day34/boilerplate-nodejs
+          name: Build docker image to Push to DockerHub with master tag
+          command: |
+            chmod +x ./.circleci/push.sh
+            sh ./.circleci/push.sh prod
+
+  deploy_prod:
+    docker:
+      - image: mikesir87/aws-cli
+    steps:
+      - checkout # check out the code in the project directory
+      - run:
+          name: Deploy to Prod server
+          command: |
+            chmod +x ./.circleci/deploy.sh
+            sh ./.circleci/deploy.sh prod
+
+workflows:
+  version: 2
+  test-build-push-deploy:
+    jobs:
+      - test
+
+      - build_and_push_dev:
+          requires:
+            - test
+          filters:
+            branches:
+              only: develop
+      - deploy_dev:
+          requires:
+            - build_and_push_dev
+          filters:
+            branches:
+              only: develop
+
+      - build_and_push_prod:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+      - deploy_prod:
+          requires:
+            - build_and_push_prod
+          filters:
+            branches:
+              only: master
