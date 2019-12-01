@@ -83,10 +83,10 @@ workflows:
             - test
           filters:
             branches:
-              only: master
+              only: feature/func/자동-배포-설정-추가#6
       - deploy_prod:
           requires:
             - build_and_push_prod
           filters:
             branches:
-              only: master
+              only: feature/func/자동-배포-설정-추가#6
